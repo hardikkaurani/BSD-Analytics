@@ -71,3 +71,6 @@ addopts = "-ra -q --strict-markers"
 testpaths = ["tests"]
 pythonpath = ["src"]
 
+
+[tool.vercel]
+entrypoint = "main.py:app"
