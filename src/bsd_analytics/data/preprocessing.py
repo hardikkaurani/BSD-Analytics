@@ -7,7 +7,6 @@ and strict target leakage elimination.
 from __future__ import annotations
 
 import logging
-from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -17,7 +16,6 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from bsd_analytics.config import (
     LEAKAGE_COLUMNS,
     PROCESSED_DATA_DIR,
-    TARGET_COLUMN,
     ensure_directories,
 )
 

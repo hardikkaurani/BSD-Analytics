@@ -13,7 +13,7 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session, sessionmaker
 
 from bsd_analytics.config import DATABASE_URI, ensure_directories
-from bsd_analytics.storage.schema import Base, DataQualityAudit, ModelExperiment, PredictionLog
+from bsd_analytics.storage.schema import Base, ModelExperiment, PredictionLog
 
 logger = logging.getLogger(__name__)
 
@@ -80,19 +80,21 @@ class DatabaseManager:
             records = session.scalars(stmt).all()
             if not records:
                 return pd.DataFrame()
-            return pd.DataFrame([
-                {
-                    "id": r.id,
-                    "model_name": r.model_name,
-                    "timestamp": r.timestamp,
-                    "mae": r.mae,
-                    "rmse": r.rmse,
-                    "r2": r.r2,
-                    "rmsle": r.rmsle,
-                    "mean_bias": r.mean_bias,
-                }
-                for r in records
-            ])
+            return pd.DataFrame(
+                [
+                    {
+                        "id": r.id,
+                        "model_name": r.model_name,
+                        "timestamp": r.timestamp,
+                        "mae": r.mae,
+                        "rmse": r.rmse,
+                        "r2": r.r2,
+                        "rmsle": r.rmsle,
+                        "mean_bias": r.mean_bias,
+                    }
+                    for r in records
+                ]
+            )
 
 
 # Global default database instance

@@ -129,17 +129,21 @@ def predict_single_observation(
     """
     Convenience function for single-sample demand forecasting (e.g., Streamlit forms).
     """
-    df_single = pd.DataFrame([{
-        "datetime": pd.to_datetime(datetime_str),
-        "season": int(season),
-        "holiday": int(holiday),
-        "workingday": int(workingday),
-        "weather": int(weather),
-        "temp": float(temp),
-        "atemp": float(atemp),
-        "humidity": float(humidity),
-        "windspeed": float(windspeed),
-    }])
+    df_single = pd.DataFrame(
+        [
+            {
+                "datetime": pd.to_datetime(datetime_str),
+                "season": int(season),
+                "holiday": int(holiday),
+                "workingday": int(workingday),
+                "weather": int(weather),
+                "temp": float(temp),
+                "atemp": float(atemp),
+                "humidity": float(humidity),
+                "windspeed": float(windspeed),
+            }
+        ]
+    )
 
     engine = PredictionEngine()
     results = engine.predict(df_single)

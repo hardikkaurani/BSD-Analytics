@@ -1,9 +1,11 @@
 """Script to download and verify raw Bike Sharing dataset."""
 
 import logging
-from bsd_analytics.data.ingestion import download_dataset, load_raw_data, get_dataset_metadata
+
+from bsd_analytics.data.ingestion import download_dataset, get_dataset_metadata, load_raw_data
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+
 
 def main():
     print("Executing download_data.py...")
@@ -13,6 +15,7 @@ def main():
     meta = get_dataset_metadata(df)
     print(f"Total rows: {meta['total_records']}, Total rentals: {meta['total_rentals']:,}")
     print("Download completed successfully.")
+
 
 if __name__ == "__main__":
     main()

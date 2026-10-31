@@ -6,11 +6,11 @@ Identity: Understand demand. Predict smarter. Optimize urban mobility.
 
 from __future__ import annotations
 
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
-from bsd_analytics.data.ingestion import load_raw_data
 from bsd_analytics.analytics.insights import get_executive_kpis
+from bsd_analytics.data.ingestion import load_raw_data
 
 # Page configuration
 st.set_page_config(
@@ -21,7 +21,8 @@ st.set_page_config(
 )
 
 # Custom Clean CSS styling
-st.markdown("""
+st.markdown(
+    """
 <style>
     .main-header {
         font-size: 2.2rem;
@@ -42,7 +43,9 @@ st.markdown("""
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 
 @st.cache_data
@@ -71,7 +74,10 @@ def main():
 
     # Welcome landing view if accessed on home
     st.markdown('<div class="main-header">BSD-Analytics</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Understand demand. Predict smarter. Optimize urban mobility.</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="sub-header">Understand demand. Predict smarter. Optimize urban mobility.</div>',
+        unsafe_allow_html=True,
+    )
 
     df = get_cached_dataset()
     kpis = get_executive_kpis(df)
@@ -82,7 +88,9 @@ def main():
     with col2:
         st.metric("Average Hourly Rentals", f"{kpis['avg_hourly_demand']} bikes/hr")
     with col3:
-        st.metric("Peak Rush Hour", f"{kpis['peak_demand_hour']}:00 hrs", f"{kpis['peak_hour_avg']} avg")
+        st.metric(
+            "Peak Rush Hour", f"{kpis['peak_demand_hour']}:00 hrs", f"{kpis['peak_hour_avg']} avg"
+        )
     with col4:
         st.metric("Peak Demand Season", kpis["peak_season"], f"{kpis['peak_season_avg']} avg/hr")
 

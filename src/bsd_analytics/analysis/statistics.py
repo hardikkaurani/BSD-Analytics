@@ -79,7 +79,9 @@ def test_workingday_demand_difference(df: pd.DataFrame) -> dict[str, Any]:
 
     # 95% Confidence Interval for the difference in means
     mean_diff = float(working.mean() - non_working.mean())
-    std_err = np.sqrt(working.var(ddof=1) / len(working) + non_working.var(ddof=1) / len(non_working))
+    std_err = np.sqrt(
+        working.var(ddof=1) / len(working) + non_working.var(ddof=1) / len(non_working)
+    )
     ci_lower = mean_diff - 1.96 * std_err
     ci_upper = mean_diff + 1.96 * std_err
 
@@ -117,7 +119,10 @@ def test_weather_condition_anova(df: pd.DataFrame) -> dict[str, Any]:
     f_stat, f_pval = stats.f_oneway(*groups)
     h_stat, h_pval = stats.kruskal(*groups)
 
-    means = {int(cat): round(float(df[df["weather"] == cat]["count"].mean()), 2) for cat in sorted(df["weather"].unique())}
+    means = {
+        int(cat): round(float(df[df["weather"] == cat]["count"].mean()), 2)
+        for cat in sorted(df["weather"].unique())
+    }
 
     return {
         "hypothesis": "Rental demand varies systematically across discrete weather severity tiers",

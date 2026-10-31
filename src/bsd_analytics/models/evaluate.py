@@ -118,10 +118,7 @@ def subgroup_error_analysis(result: ModelResult) -> dict[str, Any]:
     if "season" in df_eval.columns:
         season_map = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
         seasonal_mae = (
-            df_eval.groupby("season")["absolute_error"]
-            .mean()
-            .rename(index=season_map)
-            .to_dict()
+            df_eval.groupby("season")["absolute_error"].mean().rename(index=season_map).to_dict()
         )
     else:
         seasonal_mae = {}
