@@ -1,0 +1,14 @@
+{
+  "is_valid": true,
+  "total_records": 17379,
+  "missing_columns": [],
+  "unexpected_columns": [],
+  "missing_values": {},
+  "duplicate_rows": 0,
+  "leakage_mismatches": 0,
+  "invalid_temperature_records": 0,
+  "invalid_humidity_records": 0,
+  "invalid_windspeed_records": 0,
+  "negative_counts": 0,
+  "anomalies_detected": []
+}
