@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BSD-Analytics — Bike Sharing Demand Analytics System</title>
+  <meta name="description" content="End-to-end data science and machine learning product for urban mobility demand forecasting, exploratory analysis, and fleet optimization.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            },
+            dark: {
+              900: '#0b0f19',
+              800: '#111827',
+              700: '#1f2937',
+              600: '#374151',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-dark-900 text-slate-100 font-sans antialiased selection:bg-brand-600 selection:text-white">
+
+  <!-- Navigation -->
+  <header class="border-b border-dark-700/60 sticky top-0 z-50 backdrop-blur-md bg-dark-900/80">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center font-bold text-white text-sm">
+          BSD
+        </div>
+        <span class="font-bold text-lg tracking-tight text-white">BSD-Analytics</span>
+        <span class="text-xs bg-brand-500/10 text-brand-500 border border-brand-500/20 px-2 py-0.5 rounded-full font-mono">v0.1.0</span>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+        <a href="#overview" class="hover:text-white transition-colors">Overview</a>
+        <a href="#leaderboard" class="hover:text-white transition-colors">ML Leaderboard</a>
+        <a href="#architecture" class="hover:text-white transition-colors">Architecture</a>
+        <a href="#dashboard" class="hover:text-white transition-colors">Dashboard</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="https://github.com/hardikkaurani/BSD-Analytics" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center space-x-2 bg-dark-700 hover:bg-dark-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all border border-dark-600">
+          <span>GitHub Repository</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="overview" class="pt-20 pb-24 border-b border-dark-800">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <div class="inline-flex items-center space-x-2 bg-dark-800 border border-dark-700 px-3.5 py-1.5 rounded-full text-xs text-slate-300 font-mono mb-6">
+        <span>Production-Grade Urban Mobility Demand Intelligence</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+        Bike Sharing Demand Analytics
+      </h1>
+
+      <p class="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed font-light">
+        Understand demand. Predict smarter. Optimize urban mobility. An end-to-end regression and analytics product evaluating 17,379 hourly observations across meteorological and circadian dimensions.
+      </p>
+
+      <!-- KPI Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left mb-12">
+        <div class="bg-dark-800 p-5 rounded-xl border border-dark-700">
+          <div class="text-xs uppercase font-mono text-slate-400">Total Rides</div>
+          <div class="text-2xl font-bold text-white mt-1">3,292,679</div>
+          <div class="text-xs text-brand-500 mt-1">Historical Volume</div>
+        </div>
+        <div class="bg-dark-800 p-5 rounded-xl border border-dark-700">
+          <div class="text-xs uppercase font-mono text-slate-400">Average Demand</div>
+          <div class="text-2xl font-bold text-white mt-1">189.5 / hr</div>
+          <div class="text-xs text-emerald-400 mt-1">4,504 daily avg</div>
+        </div>
+        <div class="bg-dark-800 p-5 rounded-xl border border-dark-700">
+          <div class="text-xs uppercase font-mono text-slate-400">Peak Rush Hour</div>
+          <div class="text-2xl font-bold text-white mt-1">17:00 hrs</div>
+          <div class="text-xs text-amber-400 mt-1">461.5 avg bikes/hr</div>
+        </div>
+        <div class="bg-dark-800 p-5 rounded-xl border border-dark-700">
+          <div class="text-xs uppercase font-mono text-slate-400">Best Model R²</div>
+          <div class="text-2xl font-bold text-white mt-1">0.8806</div>
+          <div class="text-xs text-brand-500 mt-1">Gradient Boosting</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ML Benchmark Leaderboard -->
+  <section id="leaderboard" class="py-20 border-b border-dark-800 bg-dark-900/60">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-xs uppercase font-mono tracking-widest text-brand-500 mb-2">Rigorous Validation</h2>
+        <p class="text-3xl font-extrabold text-white">Empirical Holdout Leaderboard</p>
+        <p class="text-slate-400 text-sm mt-2">Evaluated chronologically on future unseen observations (July to December 2012, 4,376 hours).</p>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-dark-700 bg-dark-800">
+        <table class="w-full text-left text-sm text-slate-300">
+          <thead class="bg-dark-900/80 text-xs uppercase font-mono text-slate-400 border-b border-dark-700">
+            <tr>
+              <th class="px-6 py-4">Model Name</th>
+              <th class="px-6 py-4">Holdout MAE</th>
+              <th class="px-6 py-4">Holdout RMSE</th>
+              <th class="px-6 py-4">R-Squared</th>
+              <th class="px-6 py-4">RMSLE</th>
+              <th class="px-6 py-4">Role</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-dark-700 font-mono text-xs">
+            <tr class="bg-brand-600/10 text-white font-semibold">
+              <td class="px-6 py-4 font-sans font-bold">Gradient Boosting Regressor</td>
+              <td class="px-6 py-4 text-emerald-400">49.61</td>
+              <td class="px-6 py-4">75.91</td>
+              <td class="px-6 py-4 text-emerald-400">0.8806</td>
+              <td class="px-6 py-4">0.3749</td>
+              <td class="px-6 py-4"><span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-[11px]">Selected Production</span></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 font-sans">HistGradientBoosting Regressor</td>
+              <td class="px-6 py-4">49.75</td>
+              <td class="px-6 py-4">77.16</td>
+              <td class="px-6 py-4">0.8767</td>
+              <td class="px-6 py-4">0.3706</td>
+              <td class="px-6 py-4 text-slate-400">Fast Candidate</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 font-sans">Random Forest Regressor</td>
+              <td class="px-6 py-4">55.70</td>
+              <td class="px-6 py-4">84.29</td>
+              <td class="px-6 py-4">0.8528</td>
+              <td class="px-6 py-4">0.4058</td>
+              <td class="px-6 py-4 text-slate-400">Ensemble Baseline</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 font-sans">Ridge Regression (alpha=1.0)</td>
+              <td class="px-6 py-4">113.75</td>
+              <td class="px-6 py-4">186.50</td>
+              <td class="px-6 py-4">0.2794</td>
+              <td class="px-6 py-4">0.7168</td>
+              <td class="px-6 py-4 text-slate-400">Linear Benchmark</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 font-sans">DummyRegressor (Strategy=Mean)</td>
+              <td class="px-6 py-4">177.39</td>
+              <td class="px-6 py-4">236.06</td>
+              <td class="px-6 py-4">-0.1546</td>
+              <td class="px-6 py-4">1.4063</td>
+              <td class="px-6 py-4 text-slate-400">Empirical Floor</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section id="architecture" class="py-20 border-b border-dark-800">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-xs uppercase font-mono tracking-widest text-brand-500 mb-2">Modular Design</h2>
+        <p class="text-3xl font-extrabold text-white">System Architecture</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+          <div class="font-bold text-white text-base mb-2">1. Ingestion & Validation</div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Automated extraction from UCI Capital Bikeshare archive. Strict schema verification and elimination of target leakage (<code>casual</code> and <code>registered</code> columns).
+          </p>
+        </div>
+
+        <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+          <div class="font-bold text-white text-base mb-2">2. Feature Engineering</div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Extracts cyclical sine/cosine pairs for continuous hour/month representation, rush-hour flags, apparent temperature deltas, and wind-chill indices.
+          </p>
+        </div>
+
+        <div class="bg-dark-800 p-6 rounded-xl border border-dark-700">
+          <div class="font-bold text-white text-base mb-2">3. Inference & Warehouse</div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Real-time prediction engine enforcing physical value checks and non-negative counts. SQLite warehouse powered by SQLAlchemy for experiment and telemetry logging.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Overview -->
+  <section id="dashboard" class="py-20 bg-dark-900/60">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-xs uppercase font-mono tracking-widest text-brand-500 mb-2">Multi-Page Interface</h2>
+      <p class="text-3xl font-extrabold text-white mb-6">Streamlit Analytics Suite</p>
+      <p class="text-slate-400 text-sm max-w-2xl mx-auto mb-10 leading-relaxed">
+        Featuring 6 dedicated analytical views: Executive Overview, Demand Analysis, Weather Insights, Live Demand Forecasting, Model Performance & Calibration, and Business Fleet Optimization.
+      </p>
+
+      <div class="bg-dark-800 p-6 rounded-2xl border border-dark-700 text-left font-mono text-sm max-w-2xl mx-auto">
+        <div class="text-slate-400 text-xs mb-2"># Launch local Streamlit dashboard</div>
+        <div class="text-brand-500">$ pip install -e .[dev]</div>
+        <div class="text-brand-500">$ streamlit run dashboard/app.py</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-dark-800 py-10 text-center text-slate-500 text-xs">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>BSD-Analytics • MIT License</div>
+      <div>Maintained by Hardik Kaurani</div>
+      <div><a href="https://github.com/hardikkaurani/BSD-Analytics" class="text-slate-300 hover:text-white underline">GitHub Project</a></div>
+    </div>
+  </footer>
+
+</body>
+</html>

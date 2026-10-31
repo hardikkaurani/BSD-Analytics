@@ -70,3 +70,6 @@ minversion = "7.0"
 addopts = "-ra -q --strict-markers"
 testpaths = ["tests"]
 pythonpath = ["src"]
+
+[tool.vercel]
+entrypoint = "app.py:app"
