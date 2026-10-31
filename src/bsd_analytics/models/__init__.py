@@ -1,5 +1,12 @@
 """Machine Learning modeling subpackage for BSD-Analytics."""
 
+from bsd_analytics.models.evaluate import (
+    EvaluationMetrics,
+    calculate_metrics,
+    compare_models,
+    evaluate_model,
+    subgroup_error_analysis,
+)
 from bsd_analytics.models.train import (
     ModelResult,
     SplitData,
@@ -24,4 +31,9 @@ __all__ = [
     "train_gradient_boosting",
     "train_hist_gradient_boosting",
     "train_all_models",
+    "EvaluationMetrics",
+    "calculate_metrics",
+    "evaluate_model",
+    "compare_models",
+    "subgroup_error_analysis",
 ]
