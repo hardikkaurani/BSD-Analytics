@@ -169,15 +169,15 @@ def train_linear_regression(
     logger.info("Training %s...", name)
 
     base_regressor = (
-        Ridge(alpha=alpha, random_state=RANDOM_SEED)
-        if regularized
-        else LinearRegression()
+        Ridge(alpha=alpha, random_state=RANDOM_SEED) if regularized else LinearRegression()
     )
 
-    pipeline = Pipeline([
-        ("scaler", StandardScaler()),
-        ("regressor", base_regressor),
-    ])
+    pipeline = Pipeline(
+        [
+            ("scaler", StandardScaler()),
+            ("regressor", base_regressor),
+        ]
+    )
 
     ttr = TransformedTargetRegressor(
         regressor=pipeline,
@@ -358,7 +358,11 @@ def train_all_models(split: SplitData) -> list[ModelResult]:
     results.append(train_baseline_model(split))
     results.append(train_linear_regression(split, regularized=True, alpha=1.0))
     results.append(train_random_forest(split, n_estimators=120, max_depth=16))
-    results.append(train_gradient_boosting(split, n_estimators=120, learning_rate=0.08, max_depth=5))
-    results.append(train_hist_gradient_boosting(split, max_iter=150, learning_rate=0.08, max_depth=8))
+    results.append(
+        train_gradient_boosting(split, n_estimators=120, learning_rate=0.08, max_depth=5)
+    )
+    results.append(
+        train_hist_gradient_boosting(split, max_iter=150, learning_rate=0.08, max_depth=8)
+    )
 
     return results

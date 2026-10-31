@@ -15,7 +15,6 @@ from typing import Any
 import pandas as pd
 
 from bsd_analytics.config import (
-    EXPECTED_COLUMNS,
     RAW_DATA_DIR,
     UCI_DATASET_URL,
     ensure_directories,
@@ -60,7 +59,9 @@ def download_dataset(
         zf.extract("hour.csv", path=target_dir)
         zf.extract("day.csv", path=target_dir)
 
-    logger.info("Successfully extracted hour.csv (%s) and day.csv (%s)", hour_csv_path, day_csv_path)
+    logger.info(
+        "Successfully extracted hour.csv (%s) and day.csv (%s)", hour_csv_path, day_csv_path
+    )
     return hour_csv_path
 
 

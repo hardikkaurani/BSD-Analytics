@@ -4,11 +4,11 @@ Translates predictive patterns and descriptive findings into operational actions
 fleet rebalancing schedules, and revenue optimization strategies.
 """
 
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
-from bsd_analytics.data.ingestion import load_raw_data
 from bsd_analytics.analytics.insights import generate_fleet_recommendations, get_executive_kpis
+from bsd_analytics.data.ingestion import load_raw_data
 
 st.set_page_config(page_title="Business Insights — BSD-Analytics", layout="wide")
 
@@ -23,7 +23,11 @@ recommendations = generate_fleet_recommendations(df)
 st.subheader("Operational Baseline Summary")
 c1, c2, c3 = st.columns(3)
 c1.metric("Peak Rush Hour", f"{kpis['peak_demand_hour']}:00 hrs", "Commuter Surge")
-c2.metric("Low-Traffic Maintenance Window", f"{kpis['trough_demand_hour']}:00 - 05:00 hrs", "Minimal Impact")
+c2.metric(
+    "Low-Traffic Maintenance Window",
+    f"{kpis['trough_demand_hour']}:00 - 05:00 hrs",
+    "Minimal Impact",
+)
 c3.metric("Peak Ridership Season", kpis["peak_season"], "Full Fleet Staging")
 
 st.markdown("---")
@@ -40,31 +44,33 @@ st.markdown("---")
 
 st.subheader("Rebalancing Dispatch Schedule Blueprint")
 
-schedule_data = pd.DataFrame([
-    {
-        "Time Window": "05:30 - 06:45 AM",
-        "Primary Activity": "Morning Inbound Staging",
-        "Target Zones": "Metro Terminals, Residential Districts",
-        "Objective": "Ensure >=85% dock fill in residential nodes before 7 AM rush.",
-    },
-    {
-        "Time Window": "08:30 - 10:00 AM",
-        "Primary Activity": "Commercial De-clustering",
-        "Target Zones": "Central Business District, Tech Hubs",
-        "Objective": "Evacuate full docks in commercial zones to prevent turn-aways.",
-    },
-    {
-        "Time Window": "15:30 - 16:45 PM",
-        "Primary Activity": "Evening Outbound Staging",
-        "Target Zones": "Downtown Offices, Financial Districts",
-        "Objective": "Pre-stage bikes at office towers before 5 PM departure spike.",
-    },
-    {
-        "Time Window": "01:30 - 04:30 AM",
-        "Primary Activity": "Maintenance & Battery Swapping",
-        "Target Zones": "All Stations / Central Depot",
-        "Objective": "Perform deep cleans, repairs, and battery charging during demand trough.",
-    },
-])
+schedule_data = pd.DataFrame(
+    [
+        {
+            "Time Window": "05:30 - 06:45 AM",
+            "Primary Activity": "Morning Inbound Staging",
+            "Target Zones": "Metro Terminals, Residential Districts",
+            "Objective": "Ensure >=85% dock fill in residential nodes before 7 AM rush.",
+        },
+        {
+            "Time Window": "08:30 - 10:00 AM",
+            "Primary Activity": "Commercial De-clustering",
+            "Target Zones": "Central Business District, Tech Hubs",
+            "Objective": "Evacuate full docks in commercial zones to prevent turn-aways.",
+        },
+        {
+            "Time Window": "15:30 - 16:45 PM",
+            "Primary Activity": "Evening Outbound Staging",
+            "Target Zones": "Downtown Offices, Financial Districts",
+            "Objective": "Pre-stage bikes at office towers before 5 PM departure spike.",
+        },
+        {
+            "Time Window": "01:30 - 04:30 AM",
+            "Primary Activity": "Maintenance & Battery Swapping",
+            "Target Zones": "All Stations / Central Depot",
+            "Objective": "Perform deep cleans, repairs, and battery charging during demand trough.",
+        },
+    ]
+)
 
 st.table(schedule_data)

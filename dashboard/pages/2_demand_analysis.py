@@ -4,19 +4,18 @@ Detailed temporal distributions, daily trends, working day vs weekend comparison
 and casual vs registered user profiles.
 """
 
-import streamlit as st
 import pandas as pd
 import plotly.express as px
+import streamlit as st
 
-from bsd_analytics.data.ingestion import load_raw_data
 from bsd_analytics.analysis.eda import (
-    compute_hourly_summary,
+    compute_casual_vs_registered_breakdown,
     compute_day_of_week_summary,
-    compute_monthly_summary,
+    compute_hourly_summary,
     compute_seasonal_summary,
     compute_workingday_vs_weekend,
-    compute_casual_vs_registered_breakdown,
 )
+from bsd_analytics.data.ingestion import load_raw_data
 from dashboard.components.charts import create_hourly_trend_chart, create_seasonal_bar_chart
 
 st.set_page_config(page_title="Demand Analysis — BSD-Analytics", layout="wide")
@@ -40,7 +39,11 @@ fig_work = px.line(
     y="mean_demand",
     color="day_type",
     title="Average Hourly Demand: Working Days vs Weekends/Holidays",
-    labels={"hour": "Hour of Day (0-23)", "mean_demand": "Average Rentals", "day_type": "Day Classification"},
+    labels={
+        "hour": "Hour of Day (0-23)",
+        "mean_demand": "Average Rentals",
+        "day_type": "Day Classification",
+    },
     template="plotly_white",
     color_discrete_map={"Working Day": "#2563EB", "Weekend / Holiday": "#F59E0B"},
 )
@@ -74,15 +77,21 @@ user_data = compute_casual_vs_registered_breakdown(df)
 
 col_u1, col_u2 = st.columns([1, 2])
 with col_u1:
-    st.write(f"**Total Registered Rides:** {user_data['total_registered']:,} ({user_data['registered_share_pct']}%)")
-    st.write(f"**Total Casual Rides:** {user_data['total_casual']:,} ({user_data['casual_share_pct']}%)")
+    st.write(
+        f"**Total Registered Rides:** {user_data['total_registered']:,} ({user_data['registered_share_pct']}%)"
+    )
+    st.write(
+        f"**Total Casual Rides:** {user_data['total_casual']:,} ({user_data['casual_share_pct']}%)"
+    )
     st.info(user_data["key_takeaway"])
 
 with col_u2:
-    pie_df = pd.DataFrame({
-        "User Type": ["Registered Subscribers", "Casual Customers"],
-        "Count": [user_data["total_registered"], user_data["total_casual"]],
-    })
+    pie_df = pd.DataFrame(
+        {
+            "User Type": ["Registered Subscribers", "Casual Customers"],
+            "Count": [user_data["total_registered"], user_data["total_casual"]],
+        }
+    )
     fig_pie = px.pie(
         pie_df,
         names="User Type",

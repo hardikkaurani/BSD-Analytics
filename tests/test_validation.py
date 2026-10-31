@@ -1,19 +1,20 @@
 """Tests for schema validation and data quality auditing."""
 
-import pytest
-import pandas as pd
-from bsd_analytics.data.validation import validate_schema, run_data_quality_audit
+from bsd_analytics.data.validation import run_data_quality_audit, validate_schema
+
 
 def test_validate_schema_valid(sample_raw_df):
     is_valid, missing = validate_schema(sample_raw_df)
     assert is_valid is True
     assert len(missing) == 0
 
+
 def test_validate_schema_missing_column(sample_raw_df):
     corrupted = sample_raw_df.drop(columns=["temp"])
     is_valid, missing = validate_schema(corrupted)
     assert is_valid is False
     assert "Missing required columns" in missing[0]
+
 
 def test_data_quality_audit_clean(sample_raw_df):
     result = run_data_quality_audit(sample_raw_df)
@@ -22,6 +23,7 @@ def test_data_quality_audit_clean(sample_raw_df):
     assert result.duplicate_rows == 0
     assert result.leakage_mismatches == 0
     assert result.negative_counts == 0
+
 
 def test_data_quality_audit_detects_negatives_and_bounds(sample_raw_df):
     corrupted = sample_raw_df.copy()

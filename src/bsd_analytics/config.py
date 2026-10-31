@@ -95,7 +95,9 @@ ALL_FEATURE_COLUMNS: Final[list[str]] = (
 )
 
 # Dataset Download URL (UCI Machine Learning Repository Capital Bikeshare archive)
-UCI_DATASET_URL: Final[str] = "https://archive.ics.uci.edu/static/public/275/bike+sharing+dataset.zip"
+UCI_DATASET_URL: Final[str] = (
+    "https://archive.ics.uci.edu/static/public/275/bike+sharing+dataset.zip"
+)
 
 
 def ensure_directories() -> None:

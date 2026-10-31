@@ -33,20 +33,32 @@ def extract_native_importance(estimator: Any, feature_names: list[str]) -> pd.Da
 
     if hasattr(underlying, "feature_importances_"):
         importances = underlying.feature_importances_
-        df_imp = pd.DataFrame({
-            "feature": feature_names,
-            "importance": importances,
-        }).sort_values(by="importance", ascending=False).reset_index(drop=True)
+        df_imp = (
+            pd.DataFrame(
+                {
+                    "feature": feature_names,
+                    "importance": importances,
+                }
+            )
+            .sort_values(by="importance", ascending=False)
+            .reset_index(drop=True)
+        )
         df_imp["relative_pct"] = (df_imp["importance"] / df_imp["importance"].sum()) * 100.0
         return df_imp
 
     # Linear regression coefficients fallback
     if hasattr(underlying, "coef_"):
         coefs = np.abs(underlying.coef_)
-        df_imp = pd.DataFrame({
-            "feature": feature_names,
-            "importance": coefs,
-        }).sort_values(by="importance", ascending=False).reset_index(drop=True)
+        df_imp = (
+            pd.DataFrame(
+                {
+                    "feature": feature_names,
+                    "importance": coefs,
+                }
+            )
+            .sort_values(by="importance", ascending=False)
+            .reset_index(drop=True)
+        )
         df_imp["relative_pct"] = (df_imp["importance"] / df_imp["importance"].sum()) * 100.0
         return df_imp
 
@@ -75,11 +87,17 @@ def compute_permutation_importance(
         n_jobs=-1,
     )
 
-    df_perm = pd.DataFrame({
-        "feature": feature_names,
-        "importance_mean": r.importances_mean,
-        "importance_std": r.importances_std,
-    }).sort_values(by="importance_mean", ascending=False).reset_index(drop=True)
+    df_perm = (
+        pd.DataFrame(
+            {
+                "feature": feature_names,
+                "importance_mean": r.importances_mean,
+                "importance_std": r.importances_std,
+            }
+        )
+        .sort_values(by="importance_mean", ascending=False)
+        .reset_index(drop=True)
+    )
 
     return df_perm
 

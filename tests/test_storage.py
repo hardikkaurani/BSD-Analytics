@@ -1,7 +1,7 @@
 """Tests for SQLite database persistence and experiment logging."""
 
-import pytest
 from bsd_analytics.storage.db import DatabaseManager
+
 
 def test_database_manager_in_memory():
     db = DatabaseManager(uri="sqlite:///:memory:")

@@ -1,13 +1,14 @@
 """Tests for temporal, cyclical, and interaction feature engineering."""
 
-import pytest
 import numpy as np
+
 from bsd_analytics.features.engineering import (
     FeatureEngineer,
-    add_temporal_features,
     add_cyclical_features,
+    add_temporal_features,
     add_weather_features,
 )
+
 
 def test_add_temporal_features(sample_raw_df):
     df_temp = add_temporal_features(sample_raw_df)
@@ -21,6 +22,7 @@ def test_add_temporal_features(sample_raw_df):
     assert df_temp["hour"].min() >= 0
     assert df_temp["hour"].max() <= 23
 
+
 def test_add_cyclical_features(sample_raw_df):
     df_temp = add_temporal_features(sample_raw_df)
     df_cyc = add_cyclical_features(df_temp)
@@ -29,12 +31,14 @@ def test_add_cyclical_features(sample_raw_df):
     assert np.all(df_cyc["hour_sin"] >= -1.0) and np.all(df_cyc["hour_sin"] <= 1.0)
     assert np.all(df_cyc["hour_cos"] >= -1.0) and np.all(df_cyc["hour_cos"] <= 1.0)
 
+
 def test_add_weather_features(sample_raw_df):
     df_w = add_weather_features(sample_raw_df)
     assert "temp_feels_diff" in df_w.columns
     assert "temp_humidity_ratio" in df_w.columns
     assert "wind_chill_approx" in df_w.columns
     assert "bad_weather_flag" in df_w.columns
+
 
 def test_feature_engineer_transformer(sample_raw_df):
     fe = FeatureEngineer()

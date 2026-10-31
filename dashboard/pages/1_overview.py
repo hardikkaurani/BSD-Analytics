@@ -3,12 +3,12 @@ Page 1: Executive Overview
 Displays high-level KPIs, total rental volume, macro demand trends, and core findings.
 """
 
-import streamlit as st
 import pandas as pd
 import plotly.express as px
+import streamlit as st
 
-from bsd_analytics.data.ingestion import load_raw_data
 from bsd_analytics.analytics.insights import get_executive_kpis
+from bsd_analytics.data.ingestion import load_raw_data
 
 st.set_page_config(page_title="Executive Overview — BSD-Analytics", layout="wide")
 

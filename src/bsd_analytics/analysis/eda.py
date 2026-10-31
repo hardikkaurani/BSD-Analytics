@@ -61,15 +61,10 @@ def compute_monthly_summary(df: pd.DataFrame) -> pd.DataFrame:
     Compute demand statistics grouped by calendar month (1-12).
     """
     data = ensure_temporal(df)
-    months = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    ]
+    months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
     summary = (
-        data.groupby("month")["count"]
-        .agg(["mean", "median", "std", "sum", "count"])
-        .reset_index()
+        data.groupby("month")["count"].agg(["mean", "median", "std", "sum", "count"]).reset_index()
     )
     summary["month_name"] = summary["month"].apply(lambda m: months[m - 1])
     return summary
@@ -82,9 +77,7 @@ def compute_seasonal_summary(df: pd.DataFrame) -> pd.DataFrame:
     """
     season_map = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
     summary = (
-        df.groupby("season")["count"]
-        .agg(["mean", "median", "std", "sum", "count"])
-        .reset_index()
+        df.groupby("season")["count"].agg(["mean", "median", "std", "sum", "count"]).reset_index()
     )
     summary["season_name"] = summary["season"].map(season_map)
     return summary
@@ -111,7 +104,10 @@ def compute_casual_vs_registered_breakdown(df: pd.DataFrame) -> dict[str, Any]:
     Note: Casual and registered are used strictly for descriptive behavioral insights.
     """
     if "casual" not in df.columns or "registered" not in df.columns:
-        return {"available": False, "message": "Casual and registered columns not present in dataset"}
+        return {
+            "available": False,
+            "message": "Casual and registered columns not present in dataset",
+        }
 
     total_casual = int(df["casual"].sum())
     total_registered = int(df["registered"].sum())

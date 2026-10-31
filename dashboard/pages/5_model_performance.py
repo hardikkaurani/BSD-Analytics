@@ -4,14 +4,13 @@ Displays regression benchmark leaderboard, actual vs predicted calibration,
 residual error distributions, and feature importance rankings.
 """
 
-import streamlit as st
-import pandas as pd
 import plotly.express as px
+import streamlit as st
 
 from bsd_analytics.data.ingestion import load_raw_data
-from bsd_analytics.models.train import chronological_train_test_split, train_all_models
 from bsd_analytics.models.evaluate import compare_models, subgroup_error_analysis
 from bsd_analytics.models.interpretability import extract_native_importance
+from bsd_analytics.models.train import chronological_train_test_split, train_all_models
 from dashboard.components.charts import (
     create_actual_vs_predicted_scatter,
     create_residual_distribution_chart,
@@ -37,9 +36,9 @@ results, leaderboard = get_benchmark_results()
 # 1. Benchmark Comparison Leaderboard
 st.subheader("1. Candidate Model Leaderboard")
 st.dataframe(
-    leaderboard[["model_name", "mae", "rmse", "r2", "rmsle", "mean_bias"]].style.highlight_min(
-        subset=["mae", "rmse", "rmsle"], color="#DCFCE7"
-    ).highlight_max(subset=["r2"], color="#DCFCE7"),
+    leaderboard[["model_name", "mae", "rmse", "r2", "rmsle", "mean_bias"]]
+    .style.highlight_min(subset=["mae", "rmse", "rmsle"], color="#DCFCE7")
+    .highlight_max(subset=["r2"], color="#DCFCE7"),
     use_container_width=True,
 )
 

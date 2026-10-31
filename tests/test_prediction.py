@@ -1,7 +1,9 @@
 """Tests for real-time prediction and inference engine."""
 
 import pytest
+
 from bsd_analytics.models.predict import predict_single_observation
+
 
 def test_predict_single_observation():
     out = predict_single_observation(
@@ -18,6 +20,7 @@ def test_predict_single_observation():
     assert out.predicted_count >= 0
     assert isinstance(out.predicted_count, int)
     assert len(out.limitations) > 0
+
 
 def test_prediction_rejects_out_of_bounds_temperature():
     with pytest.raises(ValueError, match="Temperature must be within"):
