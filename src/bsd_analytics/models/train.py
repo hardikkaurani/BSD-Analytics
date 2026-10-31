@@ -14,7 +14,11 @@ import numpy as np
 import pandas as pd
 from sklearn.compose import TransformedTargetRegressor
 from sklearn.dummy import DummyRegressor
-from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
+from sklearn.ensemble import (
+    GradientBoostingRegressor,
+    HistGradientBoostingRegressor,
+    RandomForestRegressor,
+)
 from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -199,13 +203,12 @@ def train_linear_regression(
 
 def train_random_forest(
     split: SplitData,
-    n_estimators: int = 100,
+    n_estimators: int = 120,
     max_depth: int | None = 16,
     min_samples_split: int = 4,
 ) -> ModelResult:
     """
     Train a Random Forest ensemble regressor with log-target transformation.
-    Captures complex non-linear feature interactions and threshold effects.
     """
     name = "Random Forest Regressor"
     logger.info("Training %s (n_estimators=%d, max_depth=%s)...", name, n_estimators, max_depth)
@@ -289,3 +292,73 @@ def train_gradient_boosting(
             "target_transform": "log1p",
         },
     )
+
+
+def train_hist_gradient_boosting(
+    split: SplitData,
+    max_iter: int = 150,
+    learning_rate: float = 0.08,
+    max_depth: int = 8,
+) -> ModelResult:
+    """
+    Train a HistGradientBoostingRegressor (histogram-based fast GBDT).
+    """
+    name = "HistGradientBoosting Regressor"
+    logger.info("Training %s (max_iter=%d, lr=%.2f)...", name, max_iter, learning_rate)
+
+    hgb_base = HistGradientBoostingRegressor(
+        max_iter=max_iter,
+        learning_rate=learning_rate,
+        max_depth=max_depth,
+        min_samples_leaf=20,
+        random_state=RANDOM_SEED,
+    )
+
+    ttr = TransformedTargetRegressor(
+        regressor=hgb_base,
+        func=np.log1p,
+        inverse_func=np.expm1,
+        check_inverse=False,
+    )
+
+    ttr.fit(split.X_train, split.y_train)
+    raw_pred = ttr.predict(split.X_test)
+    y_pred = np.maximum(0.0, raw_pred)
+
+    return ModelResult(
+        model_name=name,
+        estimator=ttr,
+        X_test=split.X_test,
+        y_test=split.y_test,
+        y_pred=y_pred,
+        feature_names=split.feature_names,
+        hyperparameters={
+            "max_iter": max_iter,
+            "learning_rate": learning_rate,
+            "max_depth": max_depth,
+            "target_transform": "log1p",
+        },
+    )
+
+
+def train_all_models(split: SplitData) -> list[ModelResult]:
+    """
+    Execute benchmark experiments across all 5 model classes:
+    1. DummyRegressor (Baseline)
+    2. Ridge Regression
+    3. Random Forest Regressor
+    4. Gradient Boosting Regressor
+    5. HistGradientBoostingRegressor
+
+    Returns:
+        List of ModelResult instances containing predictions and estimators.
+    """
+    results: list[ModelResult] = []
+
+    results.append(train_baseline_model(split))
+    results.append(train_linear_regression(split, regularized=True, alpha=1.0))
+    results.append(train_random_forest(split, n_estimators=120, max_depth=16))
+    results.append(train_gradient_boosting(split, n_estimators=120, learning_rate=0.08, max_depth=5))
+    results.append(train_hist_gradient_boosting(split, max_iter=150, learning_rate=0.08, max_depth=8))
+
+    return results

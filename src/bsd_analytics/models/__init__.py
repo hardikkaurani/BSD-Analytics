@@ -5,8 +5,10 @@ from bsd_analytics.models.train import (
     SplitData,
     chronological_train_test_split,
     get_feature_target_matrices,
+    train_all_models,
     train_baseline_model,
     train_gradient_boosting,
+    train_hist_gradient_boosting,
     train_linear_regression,
     train_random_forest,
 )
@@ -20,4 +22,6 @@ __all__ = [
     "train_linear_regression",
     "train_random_forest",
     "train_gradient_boosting",
+    "train_hist_gradient_boosting",
+    "train_all_models",
 ]
