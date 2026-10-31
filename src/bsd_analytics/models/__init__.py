@@ -12,6 +12,11 @@ from bsd_analytics.models.interpretability import (
     extract_native_importance,
     get_interpretability_summary,
 )
+from bsd_analytics.models.predict import (
+    PredictionEngine,
+    PredictionOutput,
+    predict_single_observation,
+)
 from bsd_analytics.models.registry import (
     get_production_model,
     load_model,
@@ -52,4 +57,7 @@ __all__ = [
     "extract_native_importance",
     "compute_permutation_importance",
     "get_interpretability_summary",
+    "PredictionEngine",
+    "PredictionOutput",
+    "predict_single_observation",
 ]
