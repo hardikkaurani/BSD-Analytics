@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 from sklearn.compose import TransformedTargetRegressor
 from sklearn.dummy import DummyRegressor
+from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
 from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -174,7 +175,6 @@ def train_linear_regression(
         ("regressor", base_regressor),
     ])
 
-    # Target transform: log1p(y) on fit, expm1 on predict, ensuring outputs >= 0
     ttr = TransformedTargetRegressor(
         regressor=pipeline,
         func=np.log1p,
@@ -194,4 +194,98 @@ def train_linear_regression(
         y_pred=y_pred,
         feature_names=split.feature_names,
         hyperparameters={"regularized": regularized, "alpha": alpha, "target_transform": "log1p"},
+    )
+
+
+def train_random_forest(
+    split: SplitData,
+    n_estimators: int = 100,
+    max_depth: int | None = 16,
+    min_samples_split: int = 4,
+) -> ModelResult:
+    """
+    Train a Random Forest ensemble regressor with log-target transformation.
+    Captures complex non-linear feature interactions and threshold effects.
+    """
+    name = "Random Forest Regressor"
+    logger.info("Training %s (n_estimators=%d, max_depth=%s)...", name, n_estimators, max_depth)
+
+    rf_base = RandomForestRegressor(
+        n_estimators=n_estimators,
+        max_depth=max_depth,
+        min_samples_split=min_samples_split,
+        random_state=RANDOM_SEED,
+        n_jobs=-1,
+    )
+
+    ttr = TransformedTargetRegressor(
+        regressor=rf_base,
+        func=np.log1p,
+        inverse_func=np.expm1,
+        check_inverse=False,
+    )
+
+    ttr.fit(split.X_train, split.y_train)
+    raw_pred = ttr.predict(split.X_test)
+    y_pred = np.maximum(0.0, raw_pred)
+
+    return ModelResult(
+        model_name=name,
+        estimator=ttr,
+        X_test=split.X_test,
+        y_test=split.y_test,
+        y_pred=y_pred,
+        feature_names=split.feature_names,
+        hyperparameters={
+            "n_estimators": n_estimators,
+            "max_depth": max_depth,
+            "min_samples_split": min_samples_split,
+            "target_transform": "log1p",
+        },
+    )
+
+
+def train_gradient_boosting(
+    split: SplitData,
+    n_estimators: int = 120,
+    learning_rate: float = 0.08,
+    max_depth: int = 5,
+) -> ModelResult:
+    """
+    Train a Gradient Boosting Regressor (GBDT) with sequential residual correction.
+    """
+    name = "Gradient Boosting Regressor"
+    logger.info("Training %s (n_estimators=%d, lr=%.2f)...", name, n_estimators, learning_rate)
+
+    gbr_base = GradientBoostingRegressor(
+        n_estimators=n_estimators,
+        learning_rate=learning_rate,
+        max_depth=max_depth,
+        random_state=RANDOM_SEED,
+    )
+
+    ttr = TransformedTargetRegressor(
+        regressor=gbr_base,
+        func=np.log1p,
+        inverse_func=np.expm1,
+        check_inverse=False,
+    )
+
+    ttr.fit(split.X_train, split.y_train)
+    raw_pred = ttr.predict(split.X_test)
+    y_pred = np.maximum(0.0, raw_pred)
+
+    return ModelResult(
+        model_name=name,
+        estimator=ttr,
+        X_test=split.X_test,
+        y_test=split.y_test,
+        y_pred=y_pred,
+        feature_names=split.feature_names,
+        hyperparameters={
+            "n_estimators": n_estimators,
+            "learning_rate": learning_rate,
+            "max_depth": max_depth,
+            "target_transform": "log1p",
+        },
     )
