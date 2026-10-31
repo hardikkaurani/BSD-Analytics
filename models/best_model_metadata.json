@@ -1,0 +1,47 @@
+{
+  "model_name": "Gradient Boosting Regressor",
+  "saved_at_utc": "2026-10-31T15:50:30.563274+00:00",
+  "binary_filename": "best_model.joblib",
+  "feature_names": [
+    "temp",
+    "atemp",
+    "humidity",
+    "windspeed",
+    "season",
+    "holiday",
+    "workingday",
+    "weather",
+    "hour",
+    "month",
+    "year",
+    "weekday",
+    "is_weekend",
+    "peak_commute_hour",
+    "hour_sin",
+    "hour_cos",
+    "month_sin",
+    "month_cos",
+    "temp_humidity_ratio",
+    "temp_feels_diff",
+    "wind_chill_approx",
+    "bad_weather_flag"
+  ],
+  "feature_count": 22,
+  "hyperparameters": {
+    "n_estimators": 50,
+    "learning_rate": 0.08,
+    "max_depth": 5,
+    "target_transform": "log1p"
+  },
+  "metrics": {
+    "model_name": "Gradient Boosting Regressor",
+    "mae": 64.419,
+    "rmse": 97.55,
+    "r2": 0.8028,
+    "rmsle": 0.4145,
+    "mean_bias": 47.819,
+    "std_residual": 85.026,
+    "underprediction_pct": 73.9,
+    "overprediction_pct": 26.1
+  }
+}

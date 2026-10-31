@@ -7,6 +7,11 @@ from bsd_analytics.models.evaluate import (
     evaluate_model,
     subgroup_error_analysis,
 )
+from bsd_analytics.models.registry import (
+    get_production_model,
+    load_model,
+    save_model,
+)
 from bsd_analytics.models.train import (
     ModelResult,
     SplitData,
@@ -36,4 +41,7 @@ __all__ = [
     "evaluate_model",
     "compare_models",
     "subgroup_error_analysis",
+    "save_model",
+    "load_model",
+    "get_production_model",
 ]
