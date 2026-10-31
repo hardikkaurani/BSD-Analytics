@@ -7,6 +7,11 @@ from bsd_analytics.models.evaluate import (
     evaluate_model,
     subgroup_error_analysis,
 )
+from bsd_analytics.models.interpretability import (
+    compute_permutation_importance,
+    extract_native_importance,
+    get_interpretability_summary,
+)
 from bsd_analytics.models.registry import (
     get_production_model,
     load_model,
@@ -44,4 +49,7 @@ __all__ = [
     "save_model",
     "load_model",
     "get_production_model",
+    "extract_native_importance",
+    "compute_permutation_importance",
+    "get_interpretability_summary",
 ]
