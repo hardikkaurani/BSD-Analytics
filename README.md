@@ -281,11 +281,27 @@ ruff format --check .
 
 ## 14. Deployment Readiness
 
-The BSD-Analytics dashboard is configured for direct deployment on Streamlit Community Cloud:
-- Root entrypoint: `dashboard/app.py`
-- Package dependencies: `requirements.txt`
-- Pre-trained model artifact: `models/best_model.joblib` and `models/best_model_metadata.json`
-- CI/CD workflow: Defined in `ci/workflow.yml` for automated linting, test verification, and multi-Python validation.
+The BSD-Analytics system is configured for turnkey cloud deployment across platforms:
+
+### Render (Interactive Streamlit Dashboard)
+The complete interactive multi-page Streamlit application is configured for deployment on Render via the included `render.yaml` Blueprint and `Dockerfile`:
+- Configuration file: `render.yaml`
+- Build command: `pip install -r requirements.txt && pip install -e .`
+- Start command: `streamlit run dashboard/app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true --server.enableCORS false --server.enableXsrfProtection false`
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/hardikkaurani/BSD-Analytics)
+
+### Vercel (Showcase and Documentation Landing)
+The web showcase and analytical documentation are configured for global edge deployment on Vercel via `vercel.json`:
+- Configuration file: `vercel.json`
+- Entrypoint: `index.html`
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/hardikkaurani/BSD-Analytics)
+
+### Streamlit Community Cloud
+- Repository: `hardikkaurani/BSD-Analytics`
+- Branch: `main`
+- Main file path: `dashboard/app.py`
 
 ---
 
@@ -309,3 +325,4 @@ Distributed under the MIT License. See `LICENSE` for details.
 
 Developed and maintained by Hardik Kaurani.
 Based on research data provided by Capital Bikeshare and the UCI Machine Learning Repository.
+
