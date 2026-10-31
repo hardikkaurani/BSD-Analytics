@@ -1,0 +1,17 @@
+# Ignore Python backend and dependencies for Vercel static showcase deployment
+requirements.txt
+setup.py
+src/
+dashboard/
+notebooks/
+tests/
+models/
+data/
+reports/
+scripts/
+.pytest_cache/
+.ruff_cache/
+.venv/
+Dockerfile
+render.yaml
+Makefile
